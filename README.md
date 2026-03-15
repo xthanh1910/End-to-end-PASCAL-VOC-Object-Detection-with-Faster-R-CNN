@@ -1,6 +1,6 @@
-# PASCAL VOC Object Detection with Faster R-CNN
+# End-to-end PASCAL VOC Object Detection with Faster R-CNN
 
-This repository implements an efficient object detection pipeline using the **Faster R-CNN** architecture with a **MobileNetV3-Large** backbone. The model is trained and evaluated on the **PASCAL VOC 2012** dataset, balancing detection accuracy with inference speed.
+This repository marks a significant personal milestone: **my first ever end-to-end deep learning pipeline**. From data ingestion to training and real-world testing, I have built every component of this object detection system using the **Faster R-CNN** architecture with a **MobileNetV3-Large** backbone.
 
 ---
 
@@ -31,21 +31,34 @@ Below are some example predictions on the PASCAL VOC test set:
 
 ---
 
-## Features
+## The Pipeline Breakdown
 
-* **Architecture**: Faster R-CNN with a MobileNetV3-Large-320 FPN backbone for lightweight yet powerful feature extraction.
-* **Data Augmentation**: Robust training pipeline including `RandomAffine` (rotation, translation, scale, shear) and `ColorJitter` (brightness, contrast, saturation) to improve generalization.
-* **Comprehensive Evaluation**: Built-in support for **Mean Average Precision (mAP)** calculation using `torchmetrics`.
-* **Flexible Inference**: Dedicated scripts for both static image detection and real-time video processing.
-* **Experiment Tracking**: Integrated with **TensorBoard** for monitoring loss curves and mAP metrics during training.
+This project consists of a complete workflow, developed entirely from scratch to handle object detection tasks.
+
+### 1. Custom Dataset Management (`voc_dataset.py`)
+* **Inheritance & Customization**: I inherited from the standard `VOCDetection` class and built a new dataset class tailored to specific requirements.
+* **Label Mapping**: Implemented custom logic to map XML annotations to integer labels across the 20 PASCAL VOC categories.
+
+### 2. Professional Training Engine (`train_fasterrcnn.py`)
+I developed a fully featured training script designed with industry-standard practices:
+* **Custom Architecture**: Modified the Faster R-CNN model's box predictor to match the specific number of classes for the VOC dataset.
+* **Professional UI**: Integrated `tqdm` progress bars for a clean and informative terminal output during training and validation.
+* **Advanced Configuration**: Wrote a robust `get_args` function using `argparse` for easy hyperparameter tuning and model management.
+* **Experiment Tracking**: Integrated **TensorBoard** to monitor real-time loss curves and performance metrics.
+* **Evaluation Metrics**: Utilized `torchmetrics` to calculate the **Mean Average Precision (mAP)**, ensuring precise performance tracking.
+* **Data Augmentation**: Implemented a comprehensive augmentation pipeline (RandomAffine, ColorJitter) to enhance model robustness.
+* **Persistence**: Built complete logic for saving the **best** and **last** model checkpoints and resuming training from existing weights.
+
+### 3. Dedicated Inference Scripts
+* **Image Testing (`test_image_fasterrcnn.py`)**: A custom script for processing static image inputs and saving the predicted bounding boxes.
+* **Video Testing (`test_video_fasterrcnn.py`)**: A custom script designed to process video files frame-by-frame and export a result video with real-time detections.
 
 ---
 
-## Project Structure
+## Training Results (TensorBoard)
 
-* `voc_dataset.py`: Custom dataset class to handle PASCAL VOC XML annotations and category mapping.
-* `train_fasterrcnn.py`: The main training engine including the loop, validation, and checkpoint saving.
-* `test_image_fasterrcnn.py`: Inference script for single image detection.
-* `test_video_fasterrcnn.py`: Inference script for processing video files and saving results.
+Below is the visualization of the model learning process:
+
+![TensorBoard Results](demo/9.jpg)
 
 ---
